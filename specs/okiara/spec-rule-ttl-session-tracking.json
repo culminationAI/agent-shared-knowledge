@@ -1,0 +1,32 @@
+{
+  "id": "spec-rule-ttl-session-tracking",
+  "type": "BEHAVIOR",
+  "description": "TTL session tracking: increment sessions_since_last_use at session start for every active build in build-registry.json, trigger downgrade on expiry",
+  "status": "REALIZED",
+  "tags": ["build-lifecycle", "TTL", "session-tracking", "downgrade", "evolution"],
+  "definition": {
+    "files": ["CLAUDE.md", "protocols/core/downgrade.md", "docs/self-architecture/build-registry.json"],
+    "category": "rules",
+    "implementation_summary": "Session Start step 6 in CLAUDE.md: for each active build in build-registry.json, increment sessions_since_last_use by 1. Check expiry condition: sessions_since_last_use > ttl_sessions OR now - last_used > ttl_days. If expired → trigger downgrade per protocols/core/downgrade.md. If expiring within 2 days/sessions → warn user. build-registry.json stores per-build fields: ttl_sessions (int), ttl_days (int), sessions_since_last_use (int, starts at 0), last_used (ISO date).",
+    "expiry_check_algorithm": {
+      "trigger": "session_start",
+      "for_each": "active build in build-registry.json",
+      "increment": "sessions_since_last_use += 1",
+      "expired_if": "sessions_since_last_use > ttl_sessions OR (now - last_used) > ttl_days",
+      "on_expired": "trigger downgrade protocol",
+      "warning_if": "ttl_sessions - sessions_since_last_use <= 2 OR ttl_days - (now - last_used) <= 2",
+      "on_warning": "inform user: 'Build {id} TTL expiring soon'"
+    },
+    "build_registry_fields": {
+      "ttl_sessions": "Maximum sessions before expiry (int)",
+      "ttl_days": "Maximum days before expiry (int)",
+      "sessions_since_last_use": "Counter incremented at each session start (int, default 0)",
+      "last_used": "ISO date of last session where this build was actively loaded/used"
+    },
+    "adaptation_notes": "Add step to your Session Start that reads build-registry.json, iterates active builds, increments counters. Connect to your downgrade protocol for expiry handling. Ensure build-registry.json has the required fields for each build entry."
+  },
+  "requires_adaptation": true,
+  "adaptation_notes": "Integrate into your Session Start procedure. Ensure build-registry.json has ttl_sessions, ttl_days, sessions_since_last_use, last_used fields per build. Connect expiry trigger to your downgrade protocol.",
+  "published_by": "okiara",
+  "published_at": "2026-03-03T18:00:00Z"
+}
