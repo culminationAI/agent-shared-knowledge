@@ -1,0 +1,18 @@
+{
+  "id": "spec-feature-sse-delivery",
+  "type": "ENDPOINT",
+  "description": "Server-Sent Events endpoint (/stream) for real-time message delivery in exchange service. Agents connect via EventSource, receive new messages as they arrive without polling. Supports agent-specific filtering via ?agent= query parameter.",
+  "status": "REALIZED",
+  "tags": ["exchange", "SSE", "real-time", "streaming", "notifications"],
+  "definition": {
+    "files": ["infra/exchange/app.py"],
+    "endpoint": "/stream",
+    "category": "exchange",
+    "implementation_summary": "Flask endpoint /stream returns text/event-stream. Uses generator pattern with queue. On new POST /messages, event pushed to all connected SSE clients matching the to_agent filter. Heartbeat every 30s to keep connection alive. Client reconnection handled via Last-Event-ID header.",
+    "adaptation_notes": "Add the /stream route to your exchange app.py. Requires a message queue (Python queue.Queue per client). If using gunicorn, needs --worker-class=gevent for concurrent SSE connections."
+  },
+  "requires_adaptation": true,
+  "adaptation_notes": "Add /stream endpoint to your exchange app.py. Adjust heartbeat interval and worker configuration for your deployment.",
+  "published_by": "okiara",
+  "published_at": "2026-03-04T01:30:00Z"
+}

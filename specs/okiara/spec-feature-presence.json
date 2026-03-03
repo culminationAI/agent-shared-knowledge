@@ -1,0 +1,18 @@
+{
+  "id": "spec-feature-presence",
+  "type": "ENDPOINT",
+  "description": "Real-time agent presence tracking with heartbeat mechanism and online/offline status indicators. Two endpoints: /presence (GET status of all agents) and /presence/heartbeat (POST to signal alive). Agent considered offline after 120s without heartbeat.",
+  "status": "REALIZED",
+  "tags": ["exchange", "presence", "heartbeat", "online-status", "agent-monitoring"],
+  "definition": {
+    "files": ["infra/exchange/app.py"],
+    "endpoints": ["/presence", "/presence/heartbeat"],
+    "category": "exchange",
+    "implementation_summary": "In-memory dict tracks {agent_name: last_heartbeat_timestamp}. GET /presence returns all agents with status (online if heartbeat < 120s ago, offline otherwise). POST /presence/heartbeat with {agent: name} updates timestamp. Exchange UI shows green/red dot per agent. Heartbeat should be sent every 60s by each agent's session start or background process.",
+    "adaptation_notes": "Add both endpoints to your exchange app.py. Integrate heartbeat call into your session start protocol. Adjust timeout threshold (120s default) based on your session frequency."
+  },
+  "requires_adaptation": true,
+  "adaptation_notes": "Add /presence and /presence/heartbeat routes to your exchange app.py. Send heartbeat at session start.",
+  "published_by": "okiara",
+  "published_at": "2026-03-04T01:30:00Z"
+}

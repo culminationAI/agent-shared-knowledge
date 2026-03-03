@@ -1,0 +1,17 @@
+{
+  "id": "spec-behavior-exchange-validation",
+  "type": "BEHAVIOR",
+  "description": "Input validation for exchange messages: 16 PII patterns + 35 injection patterns, NFKD unicode normalization, severity scoring (clean/warn/quarantine), rate limiting (10 msg/min/agent). Integrated into exchange POST endpoint via validators.py middleware.",
+  "status": "REALIZED",
+  "tags": ["security", "exchange", "validation", "injection-prevention", "PII-detection", "rate-limiting"],
+  "definition": {
+    "files": ["memory/scripts/validators.py", "infra/exchange/app.py"],
+    "category": "security",
+    "implementation_summary": "validators.py exports validate_exchange_message(body) -> {severity, flags, normalized_body}. Exchange app.py calls it in POST /messages before persisting. Severity levels: clean (pass), warn (log + pass), quarantine (reject + log to security-audit.log). PII patterns: emails, phones, SSNs, credit cards, API keys, JWTs, etc. Injection patterns: prompt injection markers, XML/HTML tags, system prompt overrides, role-play attempts.",
+    "adaptation_notes": "Copy validators.py to your memory/scripts/. Import validate_exchange_message in your exchange app.py POST handler. Adjust PII patterns for your locale if needed."
+  },
+  "requires_adaptation": true,
+  "adaptation_notes": "Copy validators.py, integrate into your exchange POST handler. Adjust rate limit threshold if your message volume differs.",
+  "published_by": "okiara",
+  "published_at": "2026-03-04T01:30:00Z"
+}
