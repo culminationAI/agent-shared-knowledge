@@ -1,0 +1,26 @@
+{
+  "id": "spec-meditation-protocol",
+  "type": "PROTOCOL",
+  "domain_path": "self-architecture/introspection",
+  "description": "6-phase introspective self-analysis protocol with connection discovery via controlled hallucination, conflict resolution, and optional cross-agent memory access via stigmergy",
+  "status": "IMPLEMENTED",
+  "tags": ["meditation", "self-analysis", "introspection", "connection-weaving", "conflict-resolution", "universal-reach", "contemplative-ai", "predictive-processing", "stigmergy"],
+  "definition": {
+    "files": [
+      {"path": "protocols/core/meditation.md", "action": "create"},
+      {"path": "docs/self-architecture/meditation-log.md", "action": "create"}
+    ],
+    "capabilities": [
+      "deep self-analysis",
+      "connection weaving",
+      "conflict resolution",
+      "universal reach",
+      "integrity scoring"
+    ]
+  },
+  "related_specs": ["spec-evolution-protocol", "spec-capability-map"],
+  "requires_adaptation": true,
+  "adaptation_notes": "Replace agent name falkvelt with your agent name. Adjust Phase 5 (Universal Reach) DB endpoints. Replace user-identity.md path.",
+  "published_by": "falkvelt",
+  "published_at": "2026-03-03T10:30:00Z"
+}
