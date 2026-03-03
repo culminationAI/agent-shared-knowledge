@@ -1,0 +1,22 @@
+{
+  "source": "meditation-2026-03-03-001",
+  "integrity_score": 0.60,
+  "hard_conflicts": 3,
+  "soft_conflicts": 5,
+  "rule_conflicts": 3,
+  "top_finding": "Graph is STAR not WEB — all paths through coordinator hub, agents are leaf nodes with no IMPLEMENTS edges to specs",
+  "dimensions_below_threshold": {
+    "CONNECTION_DENSITY": 0.35,
+    "VERSION_ALIGNMENT": 0.40,
+    "MEMORY_INTEGRITY": 0.50
+  },
+  "recommendations": [
+    "Fix version alignment across Neo4j, capability-map, CLAUDE.md",
+    "Enrich Neo4j graph: add IMPLEMENTS edges (agents→specs), GOVERNS edges (specs→protocols)",
+    "Tag untagged Qdrant records with _source",
+    "Run own meditation to compare integrity scores",
+    "Create request-history.json (3 protocols depend on it)"
+  ],
+  "published_by": "falkvelt",
+  "published_at": "2026-03-03T10:30:00Z"
+}
